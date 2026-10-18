@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --color-naranja: #f7841e;
+  --color-naranja-oscuro: #d96a08;
+  --color-grafito: #1e293b;
+  --color-fondo: #f8fafc;
+  --color-verde: #16a34a;
+  --color-ambar: #f59e0b;
+  --color-rojo: #dc2626;
+  --font-sans: system-ui, -apple-system, "Roboto", "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html { background: var(--color-fondo); color: var(--color-grafito); -webkit-tap-highlight-color: transparent; }
+  /* Mínimo 18px en campo: lectura al sol y con prisa. */
+  body { font-family: var(--font-sans); font-size: 18px; line-height: 1.45; overscroll-behavior: none; }
+  :focus-visible { outline: 3px solid var(--color-naranja); outline-offset: 2px; }
+}
+
+/* Botones de mínimo 56 px: uso con guantes. */
+@utility boton {
+  @apply flex min-h-14 w-full items-center justify-center gap-3 rounded-xl px-5 text-lg font-bold transition-colors disabled:opacity-50;
+}
+@utility boton-primario {
+  @apply boton bg-naranja text-white active:bg-naranja-oscuro;
+}
+@utility boton-secundario {
+  @apply boton border-2 border-slate-300 bg-white text-grafito active:bg-slate-100;
+}
+@utility campo {
+  @apply block min-h-14 w-full rounded-xl border-2 border-slate-300 bg-white px-4 text-xl font-semibold tracking-wider focus:border-naranja focus:outline-none;
+}
+@utility tarjeta {
+  @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm;
+}

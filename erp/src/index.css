@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "leaflet/dist/leaflet.css";
+@import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
+
+/* Identidad ERP: naranja #F7841E, grafito #1E293B, fondo #F8FAFC, tarjetas blancas, semáforos. */
+@theme {
+  --color-naranja: #f7841e;
+  --color-naranja-oscuro: #d96a08;
+  --color-grafito: #1e293b;
+  --color-grafito-2: #334155;
+  --color-fondo: #f8fafc;
+  --color-verde: #16a34a;
+  --color-ambar: #f59e0b;
+  --color-rojo: #dc2626;
+  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html { background: var(--color-fondo); color: var(--color-grafito); }
+  /* Mínimo 16px: uso al sol y en campo. */
+  body { font-family: var(--font-sans); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 3px solid var(--color-naranja); outline-offset: 2px; }
+  button, a, input, select, textarea { font-size: 1rem; }
+}
+
+@layer components {
+  .tarjeta { @apply rounded-xl border border-slate-200 bg-white shadow-sm; }
+  .etiqueta { @apply text-sm font-semibold text-slate-600; }
+  .campo { @apply block min-h-12 w-full rounded-lg border border-slate-300 bg-white px-3 text-base text-grafito placeholder:text-slate-400 focus:border-naranja focus:outline-none focus:ring-2 focus:ring-naranja/30 disabled:bg-slate-100; }
+  .tabla th { @apply bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-600; }
+  .tabla td { @apply border-t border-slate-100 px-4 py-3 align-top; }
+}
+
+.leaflet-container { font-family: var(--font-sans); }

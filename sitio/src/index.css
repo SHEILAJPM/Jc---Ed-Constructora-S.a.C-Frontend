@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ─────────────────────────────────────────────────────────────
+   Dirección de arte: "Ingeniería de precisión"
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --color-noche: #07122a;      /* azul noche: fondo principal */
+  --color-marino: #0a1a33;     /* azul marino: superficies */
+  --color-marino-2: #102542;   /* superficie elevada */
+  --color-acero: #8a97a8;      /* gris acero: texto secundario, líneas */
+  --color-hormigon: #e6e8eb;   /* gris hormigón: texto sobre oscuro, fondos claros */
+  --color-ambar: #ffb400;      /* acento: solo CTAs, cifras y detalles */
+  --color-naranja: #ff6a00;
+  --color-linea: rgb(138 151 168 / 0.18);
+
+  --font-display: "Space Grotesk Variable", "Archivo Black", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+  --ease-obra: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-pulso: pulso 2.4s var(--ease-obra) infinite;
+  --animate-marquesina: marquesina 40s linear infinite;
+
+  @keyframes pulso {
+    0% { box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55); }
+    70% { box-shadow: 0 0 0 18px rgb(37 211 102 / 0); }
+    100% { box-shadow: 0 0 0 0 rgb(37 211 102 / 0); }
+  }
+  @keyframes marquesina {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-noche);
+    color: var(--color-hormigon);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 100dvh;
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-ambar); color: var(--color-noche); }
+  :focus-visible {
+    outline: 2px solid var(--color-ambar);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  img { max-width: 100%; height: auto; }
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }
+
+.saltar-contenido {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--color-ambar); color: var(--color-noche);
+  padding: 0.75rem 1rem; font-weight: 700; border-radius: 2px;
+  transition: top 0.2s;
+}
+.saltar-contenido:focus { top: 1rem; }
+
+@layer components {
+  /* Retícula de plano técnico */
+  .reticula {
+    background-image:
+      linear-gradient(var(--color-linea) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-linea) 1px, transparent 1px),
+      linear-gradient(rgb(138 151 168 / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(138 151 168 / 0.07) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    background-position: -1px -1px;
+  }
+  .reticula-animada { animation: reticula-desliza 30s linear infinite; }
+
+  /* Ruido sutil (SVG en línea, ~300 bytes, sin peticiones extra) */
+  .ruido::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.06; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Vidrio con borde de 1px que brilla */
+  .vidrio {
+    background: linear-gradient(160deg, rgb(16 37 66 / 0.72), rgb(10 26 51 / 0.55));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgb(230 232 235 / 0.09);
+    box-shadow: inset 0 1px 0 rgb(230 232 235 / 0.07), 0 20px 60px -30px rgb(0 0 0 / 0.8);
+  }
+  .borde-brillo { position: relative; }
+  .borde-brillo::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(135deg, rgb(255 180 0 / 0.55), transparent 35%, transparent 65%, rgb(138 151 168 / 0.35));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+
+  /* Cinta de seguridad amarillo/negro */
+  .cinta {
+    background: repeating-linear-gradient(-45deg, var(--color-ambar) 0 18px, #111 18px 36px);
+  }
+
+  /* Marcas de cota en las esquinas */
+  .cotas { position: relative; }
+  .cotas::before, .cotas::after {
+    content: ""; position: absolute; width: 18px; height: 18px; pointer-events: none;
+    border-color: var(--color-ambar); opacity: 0.8;
+  }
+  .cotas::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+  .cotas::after { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+
+  .degradado-acento {
+    background: linear-gradient(90deg, var(--color-ambar), var(--color-naranja));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .etiqueta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-acero);
+  }
+
+  .contenedor { width: min(100% - 2rem, 80rem); margin-inline: auto; }
+  @media (min-width: 768px) { .contenedor { width: min(100% - 4rem, 80rem); } }
+
+  .seccion { padding-block: clamp(4.5rem, 10vw, 8.5rem); }
+}
+
+@keyframes reticula-desliza {
+  from { background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px; }
+  to { background-position: 119px 119px, 119px 119px, 23px 23px, 23px 23px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Cursor personalizado solo con puntero fino (escritorio) */
+@media (pointer: fine) {
+  .cursor-personalizado, .cursor-personalizado * { cursor: none; }
+}
